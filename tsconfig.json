@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node"],
+
+    "baseUrl": ".",              // base para os aliases
+    "paths": {
+      "@/*": ["src/*"]           // @ aponta para src
+    }
+  },
+  "include": ["src"]
+}
