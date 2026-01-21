@@ -1,5 +1,5 @@
 
-  # Untitled
+  # NomeSeguro
 
   This is a code bundle for Untitled. The original project is available at https://www.figma.com/design/XjpwqpWdgPNkfwQGhlc9w6/Untitled.
 
