@@ -10,14 +10,18 @@ export async function checkCompanyName(name: string, area?: string): Promise<Gue
     return { exists: false, suggestions: [], error: 'O nome deve ter pelo menos 4 letras' };
   }
 
-  const formData = new FormData();
-  formData.append('name', name.trim());
-  if (area) formData.append('area', area);
-
   try {
-    const res = await fetch('/api.php', {
-      method: 'POST',
-      body: formData,
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://api-gue-eight.vercel.app';
+    const params = new URLSearchParams({
+      name: name.trim(),
+      ...(area && { area })
+    });
+
+    const res = await fetch(`${apiUrl}?${params}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
     });
 
     if (!res.ok) throw new Error(`Erro ao conectar com o servidor (status ${res.status})`);
