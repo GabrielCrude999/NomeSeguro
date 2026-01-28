@@ -11,7 +11,7 @@ export async function checkCompanyName(name: string, area?: string): Promise<Gue
   }
 
   try {
-    const apiUrl = (import.meta.env.VITE_API_URL || import.meta.env.vite_api_url) || 'https://api-gue-eight.vercel.app';
+    const apiUrl = (import.meta.env.VITE_API_URL || import.meta.env.vite_api_url) || 'https://api-gue-three.vercel.app';
     const params = new URLSearchParams({
       name: name.trim(),
       ...(area && { area })
