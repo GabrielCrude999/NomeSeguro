@@ -1,4 +1,7 @@
-{
-    "outputDirectory":  "dist",
-    "buildCommand":  "npm run build"
+﻿{
+  ""buildCommand"": ""npm install && npm run build"",
+  ""outputDirectory"": ""dist"",
+  ""github"": {
+    ""silent"": true
+  }
 }
