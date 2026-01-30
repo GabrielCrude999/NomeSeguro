@@ -11,9 +11,11 @@ import { ResultsPage } from "@/app/components/ResultsPage";
 export default function App() {
   const [currentPage, setCurrentPage] = useState<"home" | "results">("home");
   const [searchedName, setSearchedName] = useState("");
+  const [searchedArea, setSearchedArea] = useState("");
 
-  const handleSearch = (name: string) => {
+  const handleSearch = (name: string, area?: string) => {
     setSearchedName(name);
+    setSearchedArea(area || "");
     setCurrentPage("results");
   };
 
@@ -22,7 +24,7 @@ export default function App() {
   };
 
   if (currentPage === "results") {
-    return <ResultsPage searchedName={searchedName} onBack={handleBackToHome} />;
+    return <ResultsPage searchedName={searchedName} searchedArea={searchedArea} onBack={handleBackToHome} />;
   }
 
   return (

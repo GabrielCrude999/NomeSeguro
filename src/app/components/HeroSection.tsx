@@ -4,11 +4,12 @@ import { Input } from "@/app/components/ui/input";
 import { Search, CheckCircle } from "lucide-react";
 
 interface HeroSectionProps {
-  onSearch: (name: string) => void;
+  onSearch: (name: string, area?: string) => void;
 }
 
 export function HeroSection({ onSearch }: HeroSectionProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [area, setArea] = useState("");
   const [error, setError] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -29,9 +30,8 @@ export function HeroSection({ onSearch }: HeroSectionProps) {
     }
 
     setError("");
-    onSearch(trimmedQuery);
+    onSearch(trimmedQuery, area ? area.trim() : undefined);
   };
-
   return (
     <section className="bg-gradient-to-br from-emerald-50 to-teal-100 py-20">
       <div className="container mx-auto px-4">
@@ -56,6 +56,20 @@ export function HeroSection({ onSearch }: HeroSectionProps) {
                   className="w-full h-14 pl-4 pr-4 text-lg"
                 />
               </div>
+
+              <select
+                value={area}
+                onChange={(e) => setArea(e.target.value)}
+                className="h-14 bg-white px-3 rounded-md border"
+                aria-label="Área (opcional)"
+              >
+                <option value="">Área (opcional)</option>
+                <option value="Tech">Tech</option>
+                <option value="Logistica">Logística</option>
+                <option value="Comercial">Comercial</option>
+                <option value="Servicos">Serviços</option>
+              </select>
+
               <Button type="submit" size="lg" className="h-14 px-8 bg-emerald-600 hover:bg-emerald-700">
                 <Search className="w-5 h-5 mr-2" />
                 Verificar

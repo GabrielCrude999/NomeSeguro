@@ -11,14 +11,17 @@ import { SuggestionCard } from "@/app/components/SuggestionCard";
 
 interface ResultsPageProps {
   searchedName: string;
+  searchedArea?: string;
   onBack: () => void;
 }
 
-export function ResultsPage({ searchedName, onBack }: ResultsPageProps) {
+export function ResultsPage({ searchedName, searchedArea, onBack }: ResultsPageProps) {
   const [status, setStatus] = useState<"available" | "unavailable">("available");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [newSearch, setNewSearch] = useState("");
+  const [newArea, setNewArea] = useState("");
+  const [area, setArea] = useState<string>(searchedArea || "");
   const [error, setError] = useState("");
 
   const [chosenName, setChosenName] = useState<string | null>(null);
@@ -36,7 +39,10 @@ useEffect(() => {
   setLoading(true);
   setError("");
 
-fetch(`/apiGue/name?name=${encodeURIComponent(searchedName)}`)
+  const params = new URLSearchParams({ name: searchedName });
+  if (area) params.append('area', area);
+
+  fetch(`/apiGue/name?${params.toString()}`)
     .then((res) => {
       if (!res.ok) throw new Error("Erro de servidor");
       return res.json();
@@ -53,13 +59,15 @@ fetch(`/apiGue/name?name=${encodeURIComponent(searchedName)}`)
       setError("Não foi possível verificar o nome no momento.");
     })
     .finally(() => setLoading(false));
-}, [searchedName]);
+}, [searchedName, area]);
 
 
   const handleNewSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newSearch.trim()) return;
-    window.location.href = `/results?name=${encodeURIComponent(newSearch.trim())}`;
+    const q = new URLSearchParams({ name: newSearch.trim() });
+    if (newArea) q.append('area', newArea);
+    window.location.href = `/results?${q.toString()}`;
   };
 
   const handleSelect = (name: string) => {
@@ -88,6 +96,20 @@ fetch(`/apiGue/name?name=${encodeURIComponent(searchedName)}`)
                 onChange={(e) => setNewSearch(e.target.value)}
                 className="h-12 bg-white"
               />
+
+              <select
+                value={newArea}
+                onChange={(e) => setNewArea(e.target.value)}
+                className="h-12 bg-white px-3 rounded-md border"
+                aria-label="Área (opcional)"
+              >
+                <option value="">Área (opcional)</option>
+                <option value="Tech">Tech</option>
+                <option value="Logistica">Logística</option>
+                <option value="Comercial">Comercial</option>
+                <option value="Servicos">Serviços</option>
+              </select>
+
               <Button type="submit" className="h-12 px-6 bg-emerald-600 hover:bg-emerald-700">
                 Buscar
               </Button>
